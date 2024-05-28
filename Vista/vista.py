@@ -5,23 +5,24 @@ from tkinter import ttk
 class Vista:
     def __init__(self, root):
         # Variables booleanas para controlar los estados de los Checkbuttons
-        self.boolAll = tk.BooleanVar()
-        self.boolAlk = tk.BooleanVar()
-        self.boolVir = tk.BooleanVar()
-        self.boolTuLl = tk.BooleanVar()
-        self.boolHom = tk.BooleanVar()
-        self.boolEas = tk.BooleanVar()
+        self.boolMen = tk.BooleanVar()
+        self.boolB = tk.BooleanVar()
+        self.boolTri = tk.BooleanVar()
+        self.boolCua = tk.BooleanVar()
+        self.boolSe = tk.BooleanVar()
+        self.boolAn = tk.BooleanVar()
         self.boolJum = tk.BooleanVar() 
         self.boolMet = tk.BooleanVar() 
         self.boolGrupIn = tk.BooleanVar()
         self.boolLasLl = tk.BooleanVar() 
+        
 
         # Variable de control para el Radiobutton de rendimiento
-        self.d = tk.IntVar(value=6)
-
+        self.d = tk.IntVar(value=0)
+        self.a = tk.IntVar(value=0)
         # Configuración básica de la ventana principal
         self.root = root
-        self.root.title("ImllaScraping")
+        self.root.title("Ingenieria economica")
         self.root.option_add("*tearOff", False) # This is always a good idea
 
         # Configuración de la apariencia y tema de la ventana principal
@@ -34,43 +35,43 @@ class Vista:
         self.style.theme_use("forest-dark")
 
         # Creación del marco para las páginas
-        self.pages_frame = ttk.LabelFrame(root, text="Páginas", padding=(20, 10))
-        self.pages_frame.grid(row=0, column=0, padx=(20, 10), pady=(20, 10), sticky="nsew")
+        self.pages_frame = ttk.LabelFrame(root, text="Cambio de tasas", padding=(20, 10))
+        self.pages_frame.grid(row=0, column=0, padx=(5, 10), pady=(20, 10), sticky="nsew")
 
-        self.checkbuttonAll = ttk.Checkbutton(self.pages_frame, text="Todas", variable=self.boolAll,)
-        self.checkbuttonAll.grid(row=0, column=0, padx=5, pady=10, sticky="nsew")
+        self.checkbuttonMen = ttk.Radiobutton(self.pages_frame, text="Mensual", variable=self.a, value=0)
+        self.checkbuttonMen.grid(row=0, column=0, padx=5, sticky="nsew")
 
-        self.checkbuttonAlk = ttk.Checkbutton(self.pages_frame, text="Alkosto", variable=self.boolAlk)
-        self.checkbuttonAlk.grid(row=1,column=0, sticky="nsew",padx=20)
+        self.checkbuttonB = ttk.Radiobutton(self.pages_frame, text="Bimestral", variable=self.a, value=1)
+        self.checkbuttonB.grid(row=1,column=0, sticky="nsew",padx=5)
 
-        self.checkbuttonVir = ttk.Checkbutton(self.pages_frame, text="Virtual Llantas", variable=self.boolVir)
-        self.checkbuttonVir.grid(row=5,column=0, sticky="nsew",padx=20)
+        self.checkbuttonTri = ttk.Radiobutton(self.pages_frame, text="Trimestral", variable=self.a, value=2)
+        self.checkbuttonTri.grid(row=2,column=0, sticky="nsew",padx=5)
 
-        self.checkbuttonTuLl = ttk.Checkbutton(self.pages_frame, text="Tu llanta", variable=self.boolTuLl)
-        self.checkbuttonTuLl.grid(row=6,column=0, sticky="nsew",padx=20)
+        self.checkbuttonCua = ttk.Radiobutton(self.pages_frame, text="Cuatrimestral", variable=self.a, value=3)
+        self.checkbuttonCua.grid(row=3,column=0, sticky="nsew",padx=5)
 
-        self.checkbuttonHom = ttk.Checkbutton(self.pages_frame, text="Homcenter", variable=self.boolHom)
-        self.checkbuttonHom.grid(row=7,column=0, sticky="nsew",padx=20)
+        self.checkbuttonSe = ttk.Radiobutton(self.pages_frame, text="Semestral", variable=self.a, value=4)
+        self.checkbuttonSe.grid(row=4,column=0, sticky="nsew",padx=5)
 
-        self.checkbuttonEas = ttk.Checkbutton(self.pages_frame, text="Easy", variable=self.boolEas)
-        self.checkbuttonEas.grid(row=8,column=0, sticky="nsew",padx=20)
+        self.checkbuttonAn = ttk.Radiobutton(self.pages_frame, text="Anual", variable=self.a, value=5)
+        self.checkbuttonAn.grid(row=5,column=0, sticky="nsew",padx=5)
 
-        self.checkbuttonJum = ttk.Checkbutton(self.pages_frame, text="Jumbo", variable=self.boolJum)
-        self.checkbuttonJum.grid(row=9,column=0, sticky="nsew",padx=20)
-
-        self.checkbuttonMet = ttk.Checkbutton(self.pages_frame, text="Metro", variable=self.boolMet)
-        self.checkbuttonMet.grid(row=10,column=0, sticky="nsew",padx=20)
-
-        self.checkbuttonGrupIn = ttk.Checkbutton(self.pages_frame, text="InterLlantas", variable=self.boolGrupIn)
-        self.checkbuttonGrupIn.grid(row=11,column=0, sticky="nsew",padx=20)
-
-        self.checkbuttonLasLl = ttk.Checkbutton(self.pages_frame, text="Las llantas", variable=self.boolLasLl)
-        self.checkbuttonLasLl.grid(row=12,column=0, sticky="nsew",padx=20)
-
-
+        self.radio_i = ttk.Radiobutton(self.pages_frame, text="efectiva", variable=self.d, value=0)
+        self.radio_i.grid(row=0, column=1, padx=0, pady=0, sticky="W")
+        self.radio_j = ttk.Radiobutton(self.pages_frame, text="nominal", variable=self.d, value=1)
+        self.radio_j.grid(row=0, column=2, padx=5, pady=0, sticky="W")
+        
+        self.TextI = ttk.Entry(self.pages_frame, width=20)
+        self.TextI.grid(row=2, column=1, columnspan=2)
+        
+        self.TextF = ttk.Entry(self.pages_frame, width=20, state='disabled')
+        self.TextF.grid(row=4, column=1, columnspan=2)
+    
+        self.buttonCambioTasa = ttk.Button(self.pages_frame, text="Calcular")
+        self.buttonCambioTasa.grid(row=6, column=2, padx=(10,10), pady=(10,10), sticky="nsew")
         # Separador entre secciones
         self.separator = ttk.Separator(root)
-        self.separator.grid(row=1, column=0, padx=(20, 10), pady=10, sticky="ew")
+        self.separator.grid(row=5, column=0, padx=(20, 10), pady=10, sticky="ew")
 
         # Creación del marco para seleccionar el rendimiento
         self.efficiency_frame = ttk.LabelFrame(root, text="Redimiento", padding=(20, 10))
