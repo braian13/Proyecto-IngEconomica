@@ -6,20 +6,13 @@ class Vista:
     def __init__(self, root):
         # Variables booleanas para controlar los estados de los Checkbuttons
         self.boolMen = tk.BooleanVar()
-        self.boolB = tk.BooleanVar()
-        self.boolTri = tk.BooleanVar()
-        self.boolCua = tk.BooleanVar()
-        self.boolSe = tk.BooleanVar()
-        self.boolAn = tk.BooleanVar()
-        self.boolJum = tk.BooleanVar() 
-        self.boolMet = tk.BooleanVar() 
-        self.boolGrupIn = tk.BooleanVar()
-        self.boolLasLl = tk.BooleanVar() 
+       
         
+        self.boolAn = tk.BooleanVar() 
 
         # Variable de control para el Radiobutton de rendimiento
         self.d = tk.IntVar(value=0)
-        self.a = tk.IntVar(value=0)
+        self.a = tk.IntVar(value=0) #periodos de tiempo
         # Configuración básica de la ventana principal
         self.root = root
         self.root.title("Ingenieria economica")
@@ -60,12 +53,14 @@ class Vista:
         self.radio_i.grid(row=0, column=1, padx=0, pady=0, sticky="W")
         self.radio_j = ttk.Radiobutton(self.pages_frame, text="nominal", variable=self.d, value=1)
         self.radio_j.grid(row=0, column=2, padx=5, pady=0, sticky="W")
+        self.checkbuttonAn = ttk.Checkbutton(self.pages_frame, text="Anticipada", variable=self.boolAn) 
+        self.checkbuttonAn.grid(row=0,column=3, sticky="nsew",padx=5)
         
-        self.TextI = ttk.Entry(self.pages_frame, width=20)
-        self.TextI.grid(row=2, column=1, columnspan=2)
+        self.TextI = ttk.Entry(self.pages_frame, width=30)
+        self.TextI.grid(row=2, column=1, columnspan=3)
         
-        self.TextF = ttk.Entry(self.pages_frame, width=20, state='disabled')
-        self.TextF.grid(row=4, column=1, columnspan=2)
+        self.TextF = ttk.Entry(self.pages_frame, width=30, state='disabled')
+        self.TextF.grid(row=4, column=1, columnspan=3)
     
         self.buttonCambioTasa = ttk.Button(self.pages_frame, text="Calcular")
         self.buttonCambioTasa.grid(row=6, column=2, padx=(10,10), pady=(10,10), sticky="nsew")

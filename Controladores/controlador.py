@@ -49,11 +49,12 @@ class Controlador:
 
     def CambioTasas(self):
         # self.vista.TextI.insert(0,"Hola mundo")
-        if not self.validaciones():
-             self.CTasas()
-        else:
-            pass
-        self.vista.TextI.delete(0,tk.END)
+        #if not self.validaciones():
+        self.CTasas()
+        print(self.seleccionar_periodo())
+        print(self.seleccionar_tipo_tasa())
+        #else:
+           #pass
         
     def pruebas(self):
         pass
@@ -65,7 +66,12 @@ class Controlador:
         pass
 
     def validaciones(self):
+        #Validar negativos
+        #no estar vacios
+        #no letras
+        #1=>x>0
         try:
+        
             check = False
             #print(re.match(r"\w",1))
                 #hasta aqui
@@ -80,17 +86,25 @@ class Controlador:
             print("Error, verifique bien los campos ingresados")
             #poner popups (mensaje emergente)
     def CTasas(self):
+        self.vista.TextF.config(state="normal")
+        self.vista.TextF.delete(0,tk.END)
+        self.vista.TextF.config(state="disabled")
+
     #OJO________________________________________________________________
         
         choice = self.vista.d.get()
         
-        if choice == 0:
+        if choice == 1:
             print("Convertir tasa nominal (J) a tasa efectiva (i):")
             interes = float(self.vista.TextI.get().replace(",","."))
-            
+            i = self.convertir_J_a_i(interes, self.seleccionar_periodo(), self.seleccionar_periodo(), self.seleccionar_tipo_tasa())
+            self.vista.TextF.config(state="normal")
+            self.vista.TextF.insert(0,f"{i * 100:.2f}%")
+            self.vista.TextF.config(state="disabled")
+
             print(interes)
             #return 'J_to_i'
-        elif choice == 1:
+        elif choice == 0:
             print("Convertir tasa efectiva (i) a tasa nominal (J):")
             #return 'i_to_J'
         else:
@@ -110,44 +124,37 @@ class Controlador:
         #     n_J = seleccionar_periodo("nominal (J)")
         #     J = convertir_i_a_J(i, n_i, n_J)
         #     print(f"La tasa nominal {periodo_nombre(n_J)} es: {J * 100:.2f}%")
-    '''    
-
-    def seleccionar_periodo(tipo):
-        print(f"Seleccione el periodo de la tasa {tipo}:")
-        print("1. Mensual")
-        print("2. Bimestral")
-        print("3. Trimestral")
-        print("4. Cuatrimestral")
-        print("5. Semestral")
-        periodo = int(input("Ingrese el número correspondiente: "))
         
-        if periodo == 1:
+
+    def seleccionar_periodo(self):
+        periodo = self.vista.a.get()
+        if periodo == 0:
             return 12  # Mensual
-        elif periodo == 2:
+        elif periodo == 1:
             return 6  # Bimestral
-        elif periodo == 3:
+        elif periodo == 2:
             return 4  # Trimestral
-        elif periodo == 4:
+        elif periodo == 3:
             return 3  # Cuatrimestral
-        elif periodo == 5:
+        elif periodo == 4:
             return 2  # Semestral
+        elif periodo == 5:
+            return 1  # Anual
         else:
             raise ValueError("Opción de periodo no válida")
+    
+    def seleccionar_tipo_tasa(self):
 
-    def seleccionar_tipo_tasa():
-        print("Seleccione el tipo de tasa efectiva:")
-        print("1. Normal")
-        print("2. Anticipada")
-        tipo = int(input("Ingrese el número correspondiente: "))
-        
-        if tipo == 1:
+        tipo = self.vista.boolAn.get()
+        if tipo == False:
             return 'normal'
-        elif tipo == 2:
+        elif tipo == True:
             return 'anticipada'
         else:
             raise ValueError("Opción de tipo de tasa no válida")
-
-    def convertir_J_a_i(J, n_J, n_i, tipo_i):
+        
+   
+    def convertir_J_a_i(self, J, n_J, n_i, tipo_i):
         if tipo_i == 'normal':
             i_anual = (1 + J / n_J) ** n_J - 1
             i_convertida = (1 + i_anual) ** (1 / n_i) - 1
@@ -155,12 +162,12 @@ class Controlador:
             i_anual = (1 + J / n_J) ** n_J - 1
             i_convertida = ((1 + i_anual) ** (1 / n_i) - 1) / (1 + ((1 + i_anual) ** (1 / n_i) - 1))
         return i_convertida
-
-    def convertir_i_a_J(i, n_i, n_J):
+   
+    def convertir_i_a_J(self, i, n_i, n_J):
         i_anual = (1 + i) ** n_i - 1
         J_convertida = n_J * ((1 + i_anual) ** (1 / n_J) - 1)
         return J_convertida
-
+    '''
     def periodo_nombre(n):
         if n == 12:
             return "mensual"
