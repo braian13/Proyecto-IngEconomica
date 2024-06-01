@@ -111,12 +111,36 @@ class Vista:
         # Creacion de pestañas y widgets dentro del primer panel en un Notebook (Detalles y pestañas)
         self.pane_1 = ttk.Frame(self.paned)
         self.paned.add(self.pane_1, weight=70)
-        self.notebookInf = ttk.Notebook(self.pane_1)
-        self.textInfFrame= ttk.Frame(self.notebookInf)
-        self.textInfText = tk.Text(self.textInfFrame, relief="solid", width=80,height=20,wrap="word")
-        self.textInfText.pack(padx=0, pady=0, fill="both", expand=True)
-        self.notebookInf.add(self.textInfFrame, text="Detalles")
+
+        self.notebookInf = ttk.Notebook(self.pane_1,width=460, height=200)
         self.notebookInf.pack(expand=True, fill="both", padx=5, pady=5)
+
+
+        self.treeFrame = ttk.Frame(self.notebookInf,width=460, height=200)
+        self.treeFrame.pack(expand=False, fill="both", padx=5, pady=5)
+        # Scrollbar
+        treeScroll = ttk.Scrollbar(self.treeFrame)
+        treeScroll.pack(side="right", fill="y")
+        # Treeview
+        #________________________________________________________________________________________________________
+        self.cols = ("Periodo", "Saldo", "Interes", "Cuota", "Amortizacion")
+        #________________________________________________________________________________________________________
+        self.treeView = ttk.Treeview(self.treeFrame, selectmode="extended",show="headings", yscrollcommand=treeScroll.set, columns=self.cols )
+        self.treeView.pack(expand=True, fill="both")
+        treeScroll.config(command=self.treeView.yview)
+        # Treeview columns
+        #___________________________________________________________________________
+        self.treeView.column("Periodo", width=50)
+        self.treeView.column("Saldo", width=100)
+        self.treeView.column("Interes", width=100)
+        self.treeView.column("Cuota", width=100)
+        self.treeView.column("Amortizacion", width=100)
+        
+        self.notebookInf.add(self.treeFrame, text="Amortizacion/Capitalizacion")
+        
+        
+        
+        #____________________________________________________________________________________________________________
 
         self.pages_framIn = ttk.LabelFrame(root, text="Interes compuesto", padding=(20, 10))
         self.pages_framIn.grid(row=0, column=3, padx=(5, 10), pady=(20, 10), sticky="nsew")
@@ -130,7 +154,7 @@ class Vista:
         self.checkbuttonTI.grid(row=1,column=3, sticky="nsew",padx=5)
         self.labelVf = ttk.Label(self.pages_framIn, text="Valor Futuro (S)",anchor="w")
         self.labelVf.grid(row=2, column=1,pady=5)
-        self.TextVF = ttk.Entry(self.pages_framIn, width=50)
+        self.TextVF = ttk.Entry(self.pages_framIn, width=50, state='disabled')
         self.TextVF.grid(row=2, column=2, columnspan=3,pady=5)
         self.labelVp = ttk.Label(self.pages_framIn, text="Valor Presente (P)",anchor="w")
         self.labelVp.grid(row=3, column=1,pady=5)
@@ -182,7 +206,7 @@ class Vista:
         self.Textinter.grid(row=5, column=3,pady=5)
         self.labeli = ttk.Label(self.pages_framAn, text="Tasa de interes (i)",anchor="w")
         self.labeli.grid(row=5, column=1,pady=5)
-        self.TextMti = ttk.Entry(self.pages_framAn, width=20)
+        self.TextMti = ttk.Entry(self.pages_framAn, width=20,state='disabled')
         self.TextMti.grid(row=6, column=3,pady=5)
         self.buttonAnu = ttk.Button(self.pages_framAn, text="Calcular")
         self.buttonAnu.grid(row=7, column=3, padx=(10,10), pady=(10,10), sticky="nsew")
@@ -196,6 +220,27 @@ class Vista:
         self.x_cordinate = int((self.root.winfo_screenwidth()/2) - (self.root.winfo_width()/2))
         self.y_cordinate = int((self.root.winfo_screenheight()/2) - (self.root.winfo_height()/2))
         self.root.geometry("+{}+{}".format(self.x_cordinate, self.y_cordinate))
+
+
+    def actualizar_treeview(self,tree, nuevas_columnas):
+        # Eliminar todos los elementos existentes
+        for item in tree.get_children():
+            tree.delete(item)
+        
+        # Eliminar las columnas antiguas
+        tree["columns"] = ()
+        for col in tree["columns"]:
+            tree.heading(col, text="")
+            tree.column(col, width=0)
+
+        # Configurar las nuevas columnas
+        tree["columns"] = nuevas_columnas
+        for col in nuevas_columnas:
+            tree.heading(col, text=col)
+            tree.column(col, width=30, minwidth=30)
+
+
+
 
     # Método para crear una ventana emergente de progreso
     def ProgressBarWindow(self):
